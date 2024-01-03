@@ -1,0 +1,80 @@
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.LoginForm {
+    width: 400px;
+    margin: 100px auto;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+.errors{
+    color: red;
+    font-size: 10px;
+}
+.LoginForm form {
+    padding: 20px;
+}
+
+.LoginForm label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.LoginForm input[type="text"], .LoginForm input[type="email"], .LoginForm input[type="password"] {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    background-color: #f8f8f8;
+}
+
+.LoginForm input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+    background-color: blue;
+}
+
+.LoginForm input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Dashboard table css */
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin: auto;
+   }
+   
+   th, td {
+    border: 1px solid black !important;
+    padding: 8px;
+    text-align: left !important;
+   }
+   
+   th {
+    background-color: #f2f2f2;
+   }
+
+   .center-of-the-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   }
+   .removeBorder{
+    border: none !important;
+   }
