@@ -132,6 +132,7 @@ export default function Dashboard() {
               You don't have any tasks, please make some tasks to be displayed
               here.
             </p>
+            <CreateTaskModal checkTaskSuccess={checkTaskSuccess} />
           </div>
         )}
       </div>
