@@ -6,11 +6,13 @@ import CreateTaskModal from "../modals/createTask";
 import UpdateTaskModal from "../modals/updateTask";
 import DeleteModal from "../modals/deleteTask";
 import emptyBoxImage from "../../src/images/empty_box.png";
+import Spinner from "react-bootstrap/Spinner";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
   const [pointer, setPointer] = useState({ start: 0, end: 4 });
+  const [isLoading, setIsLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
 
   function checkTaskSuccess(check) {
@@ -18,6 +20,7 @@ export default function Dashboard() {
   }
 
   async function readAllTasks() {
+    setIsLoading(true);
     await fetch(`${process.env.REACT_APP_API_URL}/task/read-all`, {
       method: "GET",
       headers: {
@@ -30,8 +33,9 @@ export default function Dashboard() {
       .then(async (data) => {
         let result = await data;
         setTasks(result);
-        // console.log(result);
+        console.log(result);
       });
+    setIsLoading(false);
   }
 
   function handleNext() {
@@ -51,6 +55,12 @@ export default function Dashboard() {
   return (
     <>
       <NavbarComponent />
+      {isLoading && (
+        <div style={{ textAlign: "center" }}>
+          <Spinner animation="border" role="status"></Spinner>
+          <span>Loading...</span>
+        </div>
+      )}
       <h1 style={{ textAlign: "center", marginTop: "5%", marginBottom: "2%" }}>
         Manage Your Tasks Here
       </h1>
@@ -64,6 +74,7 @@ export default function Dashboard() {
                   <th>Task</th>
                   <th>Description</th>
                   <th>Completed</th>
+                  <th>Date</th>
                   <th>
                     Actions{" "}
                     <CreateTaskModal checkTaskSuccess={checkTaskSuccess} />
@@ -77,6 +88,13 @@ export default function Dashboard() {
                       <td>{item.task_name}</td>
                       <td>{item.description}</td>
                       <td>{item.completed ? "Yes" : "No"}</td>
+                      <td>
+                        {new Date(item.date).getDate() +
+                          "/" +
+                          (new Date(item.date).getMonth() + 1) +
+                          "/" +
+                          new Date(item.date).getFullYear()}
+                      </td>
                       <td>
                         <UpdateTaskModal
                           id={item._id}
