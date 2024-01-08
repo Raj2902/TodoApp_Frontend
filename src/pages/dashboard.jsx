@@ -33,7 +33,7 @@ export default function Dashboard() {
       .then(async (data) => {
         let result = await data;
         setTasks(result);
-        console.log(result);
+        //console.log(result);
       });
     setIsLoading(false);
   }

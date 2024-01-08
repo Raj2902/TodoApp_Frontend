@@ -10,6 +10,45 @@ export default function Login() {
     password: "",
   });
 
+  function isValidEmail(email) {
+    // Regular expression to match a basic email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    return emailRegex.test(email);
+  }
+
+  const forgotPass = async () => {
+    let decission = prompt(
+      "Are you sure you want to change your password? If yes, please enter the email below."
+    );
+    if (isValidEmail(decission)) {
+      localStorage.setItem("emailEntered", decission);
+      await fetch(`${process.env.REACT_APP_API_URL}/send-mail/${decission}`, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+        .then(async (response) => {
+          if (response.ok) return response.json();
+          else {
+            let data = await response.json();
+            //console.log(data);
+            alert(data.message);
+            throw new Error(data);
+          }
+        })
+        .then((result) => {
+          alert(result.message);
+        })
+        .catch((err) => {
+          //console.log(err);
+        });
+    } else {
+      alert("Invalid email!!!");
+    }
+  };
+
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
@@ -25,7 +64,8 @@ export default function Login() {
     })
       .then(async (response) => {
         if (!response.ok) {
-          throw new Error(`HTTP error: ${response.status}`);
+          let data = await response.json();
+          throw new Error(`HTTP error: ${response.status} ${data.message}`);
         }
         return await response.json();
       })
@@ -61,6 +101,19 @@ export default function Login() {
               required
             />
           </label>
+          <button
+            type="button"
+            style={{
+              cursor: "pointer",
+              textDecoration: "underline",
+              color: "blue",
+              backgroundColor: "unset",
+              border: "none",
+            }}
+            onClick={forgotPass}
+          >
+            Forgot Password?
+          </button>
           <input type="submit" value="Submit" />
         </form>
       </div>
