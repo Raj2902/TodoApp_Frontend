@@ -11,9 +11,22 @@ import Spinner from "react-bootstrap/Spinner";
 export default function Dashboard() {
   const navigate = useNavigate();
 
+  const [filterDate, setDate] = useState();
   const [pointer, setPointer] = useState({ start: 0, end: 4 });
   const [isLoading, setIsLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
+  const [totalTasks, setTotalTasks] = useState([]);
+
+  function handleStatus(event) {
+    setTasks(
+      totalTasks.filter((item) =>
+        event.target.value === "all"
+          ? item
+          : item.completed ===
+            (event.target.value === "not-done" ? false : true)
+      )
+    );
+  }
 
   function checkTaskSuccess(check) {
     if (check) readAllTasks();
@@ -33,6 +46,7 @@ export default function Dashboard() {
       .then(async (data) => {
         let result = await data;
         setTasks(result);
+        setTotalTasks(result);
         //console.log(result);
       });
     setIsLoading(false);
@@ -61,12 +75,94 @@ export default function Dashboard() {
           <span>Loading...</span>
         </div>
       )}
-      <h1 style={{ textAlign: "center", marginTop: "5%", marginBottom: "2%" }}>
+      <h1 style={{ textAlign: "center", marginTop: "2%", marginBottom: "2%" }}>
         Manage Your Tasks Here
       </h1>
       <div className="center-of-the-screen">
         {tasks.length > 0 ? (
           <>
+            <p style={{ textAlign: "center" }}>
+              <span
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  textDecoration: "Bold",
+                  marginRight: "20px",
+                }}
+              >
+                Filter By Date:
+                <input
+                  type="date"
+                  id="myDate"
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                  }}
+                  value={filterDate}
+                  max={
+                    new Date().getFullYear() +
+                    "-" +
+                    new Date().getMonth() +
+                    1 +
+                    "-" +
+                    new Date().getDate()
+                  }
+                ></input>
+              </span>
+              <span
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "700",
+                  textDecoration: "Bold",
+                }}
+              >
+                Filter By Completed:{" "}
+                <label style={{ fontWeight: "normal" }} htmlFor="status">
+                  Status:
+                </label>
+                <input
+                  style={{ cursor: "pointer" }}
+                  type="radio"
+                  id="done"
+                  name="status"
+                  value="done"
+                  onChange={handleStatus}
+                />
+                <label
+                  style={{ cursor: "pointer", fontWeight: "normal" }}
+                  htmlFor="done"
+                >
+                  Done
+                </label>
+                <input
+                  style={{ cursor: "pointer" }}
+                  type="radio"
+                  id="not-done"
+                  name="status"
+                  value="not-done"
+                  onChange={handleStatus}
+                />
+                <label
+                  htmlFor="not-done"
+                  style={{ cursor: "pointer", fontWeight: "normal" }}
+                >
+                  Not Done
+                </label>
+                <input
+                  onChange={handleStatus}
+                  style={{ cursor: "pointer" }}
+                  type="radio"
+                  id="all"
+                  name="status"
+                  value="all"
+                />
+                <label
+                  htmlFor="all"
+                  style={{ cursor: "pointer", fontWeight: "normal" }}
+                >
+                  All
+                </label>
+              </span>
+            </p>
             <table>
               <tbody>
                 <tr>
@@ -119,6 +215,7 @@ export default function Dashboard() {
                       <button>&lt;</button>
                     )}
                   </td>
+                  <td className="removeBorder"></td>
                   <td className="removeBorder"></td>
                   <td className="removeBorder"></td>
                   <td className="removeBorder"></td>

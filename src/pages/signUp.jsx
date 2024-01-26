@@ -2,10 +2,20 @@ import React, { useEffect, useState } from "react";
 import "../css/login.css";
 import NavbarComponent from "../components/navbar";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleTogglePasswordConfirmVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
   useEffect(() => {
     if (localStorage.getItem("token"))
       navigate("/dashboard", { replace: true });
@@ -100,16 +110,42 @@ export default function SignUp() {
           </label>
           <label>
             Password:
-            <input type="password" name="password" onChange={handleChange} />
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              onChange={handleChange}
+            />
+            {showPassword ? (
+              <FaEye
+                style={{ cursor: "pointer" }}
+                onClick={handleTogglePasswordVisibility}
+              />
+            ) : (
+              <FaEyeSlash
+                style={{ cursor: "pointer" }}
+                onClick={handleTogglePasswordVisibility}
+              />
+            )}
             {errors.password && <p className="errors">{errors.password}</p>}
           </label>
           <label>
             Confirm Password:
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               onChange={handleChange}
             />
+            {showConfirmPassword ? (
+              <FaEye
+                style={{ cursor: "pointer" }}
+                onClick={handleTogglePasswordConfirmVisibility}
+              />
+            ) : (
+              <FaEyeSlash
+                style={{ cursor: "pointer" }}
+                onClick={handleTogglePasswordConfirmVisibility}
+              />
+            )}
             {errors.confirmPassword && (
               <p className="errors">{errors.confirmPassword}</p>
             )}

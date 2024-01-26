@@ -5,10 +5,10 @@ import notFound from "../images/404.svg";
 import moon from "../images/moon.svg";
 import earth from "../images/earth.svg";
 import rocket from "../images/rocket.svg";
-import { useNavigate, Link } from "react-router-dom";
+//import { useNavigate, Link } from "react-router-dom";
 
 export default function Notfound() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   return (
     <div className="bg-purple">
       <div className="stars">
