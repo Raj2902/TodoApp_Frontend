@@ -32,7 +32,6 @@ export default function ChangePassword() {
     event.preventDefault();
     if (formData.password === formData.confirm_password) {
       if (email) {
-        formData.email = email;
         formData.code = code;
         await fetch(
           `${process.env.REACT_APP_API_URL}/authentication/change-password`,
