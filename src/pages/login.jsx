@@ -21,19 +21,19 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  /*function isValidEmail(email) {
+  function isValidEmail(email) {
     // Regular expression to match a basic email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     return emailRegex.test(email);
-  }*/
+  }
 
-  /*const forgotPass = async () => {
+  const forgotPass = async () => {
     let decission = prompt(
       "Are you sure you want to change your password? If yes, please enter the email below."
     );
     if (isValidEmail(decission)) {
-      localStorage.setItem("emailEntered", decission);
+      //localStorage.setItem("emailEntered", decission);
       await fetch(`${process.env.REACT_APP_API_URL}/send-mail/${decission}`, {
         method: "GET",
         headers: {
@@ -58,7 +58,7 @@ export default function Login() {
     } else {
       alert("Invalid email!!!");
     }
-  };*/
+  };
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -152,7 +152,7 @@ export default function Login() {
             />
             Remember Me
           </label>
-          {/* <button
+          <button
             type="button"
             style={{
               cursor: "pointer",
@@ -164,7 +164,7 @@ export default function Login() {
             onClick={forgotPass}
           >
             Forgot Password?
-          </button> */}
+          </button>
           <input type="submit" value="Submit" />
         </form>
       </div>
