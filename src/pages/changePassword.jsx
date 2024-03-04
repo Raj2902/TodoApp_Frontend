@@ -7,7 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 export default function ChangePassword() {
   const { code } = useParams();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [expire, setExpire] = useState(false);
@@ -31,7 +31,7 @@ export default function ChangePassword() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (formData.password === formData.confirm_password) {
-      if (email) {
+      if (userId) {
         formData.code = code;
         await fetch(
           `${process.env.REACT_APP_API_URL}/authentication/change-password`,
@@ -81,7 +81,7 @@ export default function ChangePassword() {
         }
       })
       .then((result) => {
-        setEmail(result.email);
+        setUserId(result.user_id);
       })
       .catch((err) => {
         //console.log(err);
