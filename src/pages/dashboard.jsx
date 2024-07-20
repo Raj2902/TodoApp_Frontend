@@ -7,12 +7,14 @@ import UpdateTaskModal from "../modals/updateTask";
 import DeleteModal from "../modals/deleteTask";
 import emptyBoxImage from "../../src/images/empty_box.png";
 import Spinner from "react-bootstrap/Spinner";
+import "../css/dashboard.css";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
   const [filterDate, setDate] = useState();
   const [pointer, setPointer] = useState({ start: 0, end: 4 });
+  const [pointerMob, setPointerMob] = useState({ start: 0, end: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
   const [totalTasks, setTotalTasks] = useState([]);
@@ -62,6 +64,16 @@ export default function Dashboard() {
   function handlePrev() {
     setPointer({ start: pointer.start - 5, end: pointer.end - 5 });
   }
+  function handleNextMob() {
+    console.log("Next");
+    console.log("start::", pointerMob.start, "end::", pointerMob.end);
+    setPointerMob({ start: pointerMob.start + 1, end: pointerMob.end + 1 });
+  }
+  function handlePrevMob() {
+    console.log("Prev");
+    console.log("start::", pointerMob.start, "end::", pointerMob.end);
+    setPointerMob({ start: pointerMob.start - 1, end: pointerMob.end - 1 });
+  }
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -75,24 +87,17 @@ export default function Dashboard() {
     <>
       <NavbarComponent />
       {isLoading && (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
           <Spinner animation="border" role="status"></Spinner>
           <span>Loading...</span>
         </div>
       )}
-      <h1 style={{ textAlign: "center", marginTop: "2%", marginBottom: "2%" }}>
+      <h1 style={{ textAlign: "center", margin: "30px", fontSize: "30px" }}>
         Manage Your Tasks Here
       </h1>
       <div className="center-of-the-screen">
-        <p style={{ textAlign: "center" }}>
-          <span
-            style={{
-              fontSize: "20px",
-              fontWeight: "700",
-              textDecoration: "Bold",
-              marginRight: "20px",
-            }}
-          >
+        <p>
+          <span>
             Filter By Date:
             <input
               type="date"
@@ -111,73 +116,70 @@ export default function Dashboard() {
               }
             ></input>
           </span>
-          <span
-            style={{
-              fontSize: "20px",
-              fontWeight: "700",
-              textDecoration: "Bold",
-            }}
-          >
+          <span>
             Filter By Completed:{" "}
-            <label style={{ fontWeight: "normal" }} htmlFor="status">
-              Status:
-            </label>
-            <input
-              style={{ cursor: "pointer" }}
-              type="radio"
-              id="done"
-              name="status"
-              value="done"
-              onChange={(event) => {
-                setFilter("done");
-                handleStatus(event);
-              }}
-            />
-            <label
-              style={{ cursor: "pointer", fontWeight: "normal" }}
-              htmlFor="done"
-            >
-              Done
-            </label>
-            <input
-              style={{ cursor: "pointer" }}
-              type="radio"
-              id="not-done"
-              name="status"
-              value="not-done"
-              onChange={(event) => {
-                setFilter("not-done");
-                handleStatus(event);
-              }}
-            />
-            <label
-              htmlFor="not-done"
-              style={{ cursor: "pointer", fontWeight: "normal" }}
-            >
-              not-done
-            </label>
-            <input
-              onChange={(event) => {
-                setFilter("all");
-                handleStatus(event);
-              }}
-              style={{ cursor: "pointer" }}
-              type="radio"
-              id="all"
-              name="status"
-              value="all"
-            />
-            <label
-              htmlFor="all"
-              style={{ cursor: "pointer", fontWeight: "normal" }}
-            >
-              All
-            </label>
+            <form action="#" style={{ display: "inline-flex", gap: "5px" }}>
+              <label style={{ fontWeight: "normal" }} htmlFor="status">
+                Status:
+              </label>
+              <input
+                style={{ cursor: "pointer" }}
+                type="radio"
+                id="done"
+                name="status"
+                value="done"
+                onChange={(event) => {
+                  setFilter("done");
+                  handleStatus(event);
+                }}
+              />
+              <label
+                style={{ cursor: "pointer", fontWeight: "normal" }}
+                htmlFor="done"
+              >
+                Done
+              </label>
+              <input
+                style={{ cursor: "pointer" }}
+                type="radio"
+                id="not-done"
+                name="status"
+                value="not-done"
+                onChange={(event) => {
+                  setFilter("not-done");
+                  handleStatus(event);
+                }}
+              />
+              <label
+                htmlFor="not-done"
+                style={{ cursor: "pointer", fontWeight: "normal" }}
+              >
+                not-done
+              </label>
+              <input
+                onChange={(event) => {
+                  setFilter("all");
+                  handleStatus(event);
+                }}
+                style={{ cursor: "pointer" }}
+                type="radio"
+                id="all"
+                name="status"
+                value="all"
+              />
+              <label
+                htmlFor="all"
+                style={{ cursor: "pointer", fontWeight: "normal" }}
+              >
+                All
+              </label>
+            </form>
           </span>
         </p>
         {tasks.length > 0 ? (
           <>
-            <table>
+            <table className="desktopTable">
+              <thead>Total Tasks : {tasks.length}</thead>
               <tbody>
                 <tr>
                   <th>S.No</th>
@@ -206,14 +208,16 @@ export default function Dashboard() {
                           new Date(item.date).getFullYear()}
                       </td>
                       <td>
-                        <UpdateTaskModal
-                          id={item._id}
-                          checkTaskSuccess={checkTaskSuccess}
-                        />
-                        <DeleteModal
-                          id={item._id}
-                          checkTaskSuccess={checkTaskSuccess}
-                        />
+                        <div style={{ display: "flex", gap: "10px" }}>
+                          <UpdateTaskModal
+                            id={item._id}
+                            checkTaskSuccess={checkTaskSuccess}
+                          />
+                          <DeleteModal
+                            id={item._id}
+                            checkTaskSuccess={checkTaskSuccess}
+                          />
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -246,6 +250,82 @@ export default function Dashboard() {
                   </td>
                 </tr>
               </tbody>
+            </table>
+            <table className="mobileTable">
+              <thead>Total Tasks : {tasks.length}</thead>
+              <tbody>
+                {tasks
+                  .slice(pointerMob.start, pointerMob.end + 1)
+                  .map((item, index) => (
+                    <tr key={item._id}>
+                      <td>
+                        <b>S No : </b>
+                        {index + pointerMob.start + 1}
+                      </td>
+                      <td>
+                        <b>Task Name : </b>
+                        {item.task_name}
+                      </td>
+                      <td>
+                        <b>Task Description : </b>
+                        {item.description}
+                      </td>
+                      <td>
+                        <b>Task Completed : </b>
+                        {item.completed ? "Yes" : "No"}
+                      </td>
+                      <td>
+                        <b>Task Date : </b>
+                        {new Date(item.date).getDate() +
+                          "/" +
+                          (new Date(item.date).getMonth() + 1) +
+                          "/" +
+                          new Date(item.date).getFullYear()}
+                      </td>
+                      <td>
+                        <div style={{ display: "flex", gap: "10px" }}>
+                          <CreateTaskModal
+                            checkTaskSuccess={checkTaskSuccess}
+                          />
+                          <UpdateTaskModal
+                            id={item._id}
+                            checkTaskSuccess={checkTaskSuccess}
+                          />
+                          <DeleteModal
+                            id={item._id}
+                            checkTaskSuccess={checkTaskSuccess}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td
+                    onClick={handlePrevMob}
+                    style={{ float: "left" }}
+                    className="removeBorder"
+                  >
+                    {pointerMob.start === 0 ? (
+                      <button disabled>&lt;</button>
+                    ) : (
+                      <button>&lt;</button>
+                    )}
+                  </td>
+                  <td
+                    onClick={handleNextMob}
+                    style={{ float: "right" }}
+                    className="removeBorder"
+                  >
+                    {pointerMob.end + 1 >= tasks.length ? (
+                      <button disabled>&gt;</button>
+                    ) : (
+                      <button>&gt;</button>
+                    )}
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </>
         ) : (

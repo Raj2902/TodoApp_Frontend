@@ -1,0 +1,52 @@
+.desktopTable{
+    display: none;
+}
+p{
+    display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 30px;
+}
+p span{
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: Bold;
+}
+thead{
+    display: block;
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+    padding: 0px 0px 20px 0px;
+
+}
+.mobileTable tbody tr:nth-child(1),.mobileTable tbody tr:nth-child(2){
+    display: flex;
+    flex-direction: column;
+
+}
+.mobileTable tbody{
+    display: flex;
+}
+
+@media (min-width:768px){
+    .mobileTable{
+        display: none;
+    }
+    thead{
+        font-size: 30px;
+    
+    }    
+    .desktopTable{
+        display: block;
+    }
+    p{
+       justify-content: center;
+       flex-direction: row;
+
+    }
+    p span{
+        margin-right: 20px;
+    }
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import "../css/navbar.css";
 
 export default function NavbarComponent() {
   const navigate = useNavigate();
@@ -83,7 +84,7 @@ export default function NavbarComponent() {
             <Navbar.Brand>
               <img
                 alt="logo"
-                src="logo.png"
+                src="/logo.png"
                 width="30"
                 height="30"
                 className="d-inline-block align-top"
@@ -151,7 +152,7 @@ export default function NavbarComponent() {
               <NavDropdown title={user.name} id="basic-nav-dropdown">
                 <div style={{ margin: "10px" }}>
                   <button
-                    style={{ marginBottom: "10px" }}
+                    style={{ margin: "0px 10px 10px 0px" }}
                     onClick={() => {
                       setFormData({ name: user.name });
                       setShowForm(true);
@@ -170,29 +171,31 @@ export default function NavbarComponent() {
                         onChange={handleChange}
                         required
                       />
-                      <button
-                        style={{
-                          backgroundColor: "#0d6efd",
-                          color: "white",
-                          border: "none",
-                        }}
-                        type="submit"
-                      >
-                        Submit
-                      </button>
-                      <button
-                        type="button"
-                        style={{
-                          backgroundColor: "red",
-                          color: "white",
-                          border: "none",
-                        }}
-                        onClick={() => {
-                          setShowForm(false);
-                        }}
-                      >
-                        Close
-                      </button>
+                      <div className="modal-btn">
+                        <button
+                          style={{
+                            backgroundColor: "#0d6efd",
+                            color: "white",
+                            border: "none",
+                          }}
+                          type="submit"
+                        >
+                          Submit
+                        </button>
+                        <button
+                          type="button"
+                          style={{
+                            backgroundColor: "red",
+                            color: "white",
+                            border: "none",
+                          }}
+                          onClick={() => {
+                            setShowForm(false);
+                          }}
+                        >
+                          Close
+                        </button>
+                      </div>
                     </form>
                   ) : (
                     ""
@@ -217,7 +220,7 @@ export default function NavbarComponent() {
             cursor: "pointer",
           }}
         >
-          ^
+          <span className="drop-down-up">&gt;</span>
         </div>
       ) : (
         <div
@@ -228,7 +231,7 @@ export default function NavbarComponent() {
             cursor: "pointer",
           }}
         >
-          V
+          <span className="drop-down-down">&gt;</span>
         </div>
       )}
     </div>
